@@ -1,7 +1,8 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import LottieView from "lottie-react-native";
 
 import QuestionCard from "@/components/QuestionCard";
 import ResultsCard from "@/components/ResultsCard";
@@ -52,7 +53,16 @@ export default function QuizScreen() {
       );
     }
 
-    return <ResultsCard />;
+    return (
+      <>
+        <LottieView
+          style={StyleSheet.absoluteFill}
+          source={require("@assets/lottie/party.json")}
+          autoPlay
+        />
+        <ResultsCard />
+      </>
+    );
   };
 
   return (
