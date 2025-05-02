@@ -3,14 +3,19 @@ import { View } from "react-native";
 import Card from "@/components/Card";
 import AnswerOption from "@/components/AnswerOption";
 
-export default function QuestionCard() {
+import { Question } from "@/types";
+
+type QuestionCardProps = {
+  question: Question;
+};
+
+export default function QuestionCard({ question }: QuestionCardProps) {
   return (
-    <Card title="What is React Native?">
+    <Card title={question.title}>
       <View style={{ gap: 12 }}>
-        <AnswerOption />
-        <AnswerOption />
-        <AnswerOption />
-        <AnswerOption />
+        {question.options.map((option) => (
+          <AnswerOption key={option} option={option} />
+        ))}
       </View>
     </Card>
   );

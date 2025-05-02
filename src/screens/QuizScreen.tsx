@@ -6,25 +6,55 @@ import QuestionCard from "@/components/QuestionCard";
 import ResultsCard from "@/components/ResultsCard";
 import Button from "@/components/Button";
 
+import { useQuizContext } from "@/providers/QuizProvider";
+
 import colors from "@/constants/colors";
 
 export default function QuizScreen() {
+  const { numberOfQuestions, index, question, handleNext } = useQuizContext();
+
+  const renderHeader = () => {
+    if (question) {
+      return (
+        <Text style={styles.header}>
+          Question {index + 1}/{numberOfQuestions}
+        </Text>
+      );
+    }
+
+    return <View />;
+  };
+
+  const renderBody = () => {
+    if (question) {
+      return (
+        <View style={{ gap: 12 }}>
+          <QuestionCard question={question} />
+          <Text style={styles.time}>20 sec</Text>
+        </View>
+      );
+    }
+
+    return <ResultsCard />;
+  };
+
   return (
     <SafeAreaView style={styles.screen}>
       <View style={styles.container}>
-        <Text style={styles.header}>Question 1/5</Text>
+        {renderHeader()}
 
-        <View>
-          <QuestionCard />
-          <Text style={styles.time}>20 sec</Text>
-        </View>
-        {/* <ResultsCard /> */}
+        {renderBody()}
 
         <Button
-          text="Next"
+          text={question ? "Next" : "Restart"}
           rightIcon={
-            <Ionicons name="arrow-forward-outline" size={24} color="white" />
+            <Ionicons
+              name={question ? "arrow-forward-outline" : "refresh-outline"}
+              size={24}
+              color="white"
+            />
           }
+          onPress={handleNext}
         />
       </View>
     </SafeAreaView>
@@ -49,6 +79,5 @@ const styles = StyleSheet.create({
     color: colors.darkGreen,
     fontWeight: "bold",
     textAlign: "center",
-    marginTop: 12,
   },
 });
