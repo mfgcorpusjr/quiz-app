@@ -6,9 +6,9 @@ import {
   PropsWithChildren,
 } from "react";
 
-import { TQuizContext } from "@/types";
-
 import questions from "@/questions";
+
+import { TQuizContext } from "@/types";
 
 const QuizContext = createContext<TQuizContext>({
   numberOfQuestions: 0,

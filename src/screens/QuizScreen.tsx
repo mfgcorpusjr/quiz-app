@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -6,12 +7,28 @@ import QuestionCard from "@/components/QuestionCard";
 import ResultsCard from "@/components/ResultsCard";
 import Button from "@/components/Button";
 
+import useTimer from "@/hooks/useTimer";
 import { useQuizContext } from "@/providers/QuizProvider";
 
 import colors from "@/constants/colors";
 
 export default function QuizScreen() {
+  const { time, startTimer, clearTimer } = useTimer(20);
   const { numberOfQuestions, index, question, handleNext } = useQuizContext();
+
+  useEffect(() => {
+    if (question) {
+      startTimer();
+    }
+
+    return () => clearTimer();
+  }, [question]);
+
+  useEffect(() => {
+    if (time < 1) {
+      handleNext();
+    }
+  }, [time]);
 
   const renderHeader = () => {
     if (question) {
@@ -30,7 +47,7 @@ export default function QuizScreen() {
       return (
         <View style={{ gap: 12 }}>
           <QuestionCard question={question} />
-          <Text style={styles.time}>20 sec</Text>
+          <Text style={styles.time}>{time} sec</Text>
         </View>
       );
     }
